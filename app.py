@@ -22,11 +22,33 @@ app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB max upload
 MODEL_PATH = "model2.h5"
 IMG_SIZE   = (299, 299)
 
+# ── Download model dari Hugging Face Hub jika belum ada lokal ──
+# Ganti REPO_ID sesuai repo model kamu di HF Hub, contoh: "satriaaawan/brainscan-ai"
+HF_REPO_ID   = os.environ.get("HF_MODEL_REPO", "satriaaawan/brainscan-ai")
+HF_FILENAME  = os.environ.get("HF_MODEL_FILENAME", "model2.h5")
+
+def ensure_model_downloaded():
+    if os.path.exists(MODEL_PATH):
+        print(f"[INFO] {MODEL_PATH} sudah ada, skip download.")
+        return
+    try:
+        from huggingface_hub import hf_hub_download
+        print(f"[INFO] Mengunduh model dari HF Hub: {HF_REPO_ID}/{HF_FILENAME} ...")
+        downloaded_path = hf_hub_download(repo_id=HF_REPO_ID, filename=HF_FILENAME)
+        # Buat symlink/copy ke MODEL_PATH agar path lokal konsisten
+        import shutil
+        shutil.copy(downloaded_path, MODEL_PATH)
+        print(f"[INFO] Model berhasil diunduh ke {MODEL_PATH}")
+    except Exception as e:
+        print(f"[WARN] Gagal mengunduh model dari HF Hub: {e}")
+
+ensure_model_downloaded()
+
 CLASSES = [
     "Astrocytoma", "Carcinoma", "Ependymoma", "Ganglioglioma",
     "Germinoma", "Glioblastoma", "Granuloma", "Medulloblastoma",
     "Meningioma", "Neurocytoma", "Oligodendroglioma", "Papilloma",
-    "Schwannoma", "Tuberculoma", "Otak Normal",
+    "Schwannoma", "Tuberculoma", "Tumor Normal",
 ]
 
 # ── Load Model ─────────────────────────────────────────────
@@ -246,5 +268,5 @@ def predict():
 if __name__ == "__main__":
     # Hanya dipakai untuk testing lokal.
     # Di production, Gunicorn yang menjalankan `app` (lihat Dockerfile / Procfile).
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 7860))
     app.run(debug=False, host="0.0.0.0", port=port)

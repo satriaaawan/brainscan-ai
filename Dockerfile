@@ -15,15 +15,14 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # ── Copy seluruh source code aplikasi ──────────────────────
-# Pastikan folder ini juga berisi: templates/index.html, model2.h5, dll
+# model2.h5 TIDAK perlu ada di sini -- akan didownload otomatis
+# dari Hugging Face Hub saat container start (lihat app.py)
 COPY . .
 
-# ── Environment ─────────────────────────────────────────────
+# ── Hugging Face Spaces WAJIB pakai port 7860 ──────────────
 ENV PYTHONUNBUFFERED=1
-ENV PORT=8000
+ENV PORT=7860
+EXPOSE 7860
 
-EXPOSE 8000
-
-# ── Jalankan dengan Gunicorn (bukan flask dev server) ──────
-# Timeout dinaikkan karena inference model + Grad-CAM bisa agak lama
-CMD ["sh", "-c", "gunicorn -w 1 -b 0.0.0.0:${PORT} --timeout 120 app:app"]
+# ── Jalankan dengan Gunicorn ────────────────────────────────
+CMD ["sh", "-c", "gunicorn -w 1 -b 0.0.0.0:${PORT} --timeout 180 app:app"]
