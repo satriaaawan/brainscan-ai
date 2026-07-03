@@ -48,7 +48,7 @@ CLASSES = [
     "Astrocytoma", "Carcinoma", "Ependymoma", "Ganglioglioma",
     "Germinoma", "Glioblastoma", "Granuloma", "Medulloblastoma",
     "Meningioma", "Neurocytoma", "Oligodendroglioma", "Papilloma",
-    "Schwannoma", "Tuberculoma", "Tumor Normal",
+    "Schwannoma", "Tuberculoma", "Otak Sehat",
 ]
 
 # ── Load Model ─────────────────────────────────────────────
