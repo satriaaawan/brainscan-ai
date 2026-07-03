@@ -548,6 +548,97 @@ details[open] > summary { border-radius: var(--radius-sm) var(--radius-sm) 0 0; 
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 860px)
+═══════════════════════════════════════ */
+@media (max-width: 860px) {
+  .main { max-width: 100%; padding: 32px 20px 48px; }
+  .results-grid { grid-template-columns: 1fr; }
+  .image-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — MOBILE (≤ 640px)
+═══════════════════════════════════════ */
+@media (max-width: 640px) {
+  :root { --topbar-h: 56px; }
+
+  /* Topbar: kompak, brand-sub disembunyikan agar tak sesak */
+  .topbar { padding: 0 12px; gap: 10px; }
+  .topbar-brand-title { font-size: 1rem; }
+  .topbar-brand-sub { display: none; }
+  .topbar-status { padding: 5px 10px; font-size: 0; gap: 0; }
+  .topbar-status .status-dot { width: 8px; height: 8px; }
+  .topbar-toggle { width: 40px; height: 40px; } /* target sentuh lebih besar */
+
+  /* Sidebar drawer: lebar mengikuti layar, tak lebih dari 85% */
+  .sidebar { width: min(var(--sidebar-w), 85vw); }
+  .sidebar-close { width: 34px; height: 34px; }
+
+  /* Main content */
+  .main { padding: 22px 16px 44px; }
+  .page-header { margin-bottom: 24px; }
+  .page-header h1 { font-size: 1.55rem; }
+  .page-header p { font-size: 0.84rem; padding: 0 4px; }
+
+  /* Upload zone: lebih ringkas & tap target besar */
+  .upload-card { padding: 34px 18px; margin-bottom: 26px; border-radius: var(--radius); }
+  .upload-icon { font-size: 2.4rem; margin-bottom: 10px; }
+  .upload-title { font-size: 0.95rem; }
+  .upload-sub { font-size: 0.76rem; }
+  .upload-btn { width: 100%; padding: 13px 20px; font-size: 0.88rem; margin-top: 16px; }
+
+  /* Prediction card */
+  .pred-card, .card { padding: 18px 18px; }
+  .pred-class { font-size: 1.4rem; }
+  .metrics-row { gap: 10px; margin-top: 14px; }
+  .metric { padding: 12px 10px; }
+  .metric-value { font-size: 1.4rem; }
+  .metric-label { font-size: 0.68rem; }
+
+  /* Grad-CAM: 1 kolom penuh di layar sempit biar detail terlihat */
+  .image-grid { grid-template-columns: 1fr; gap: 12px; }
+  .img-tile img { width: 100%; }
+
+  .gradcam-info { font-size: 0.8rem; padding: 11px 14px; }
+
+  /* Tabel probabilitas: scroll horizontal + kolom lebih ramping */
+  .prob-table { font-size: 0.78rem; }
+  .prob-table th, .prob-table td { padding: 8px 10px; }
+  .prog-wrap { width: 64px; }
+  details > summary { font-size: 0.8rem; padding: 11px 14px; }
+
+  .footer { margin-top: 40px; font-size: 0.72rem; }
+
+  /* Loading overlay: teks tak terlalu lebar */
+  .loading-text { font-size: 0.85rem; padding: 0 24px; text-align: center; }
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE — EXTRA SMALL (≤ 380px)
+═══════════════════════════════════════ */
+@media (max-width: 380px) {
+  .topbar-status { padding: 5px 8px; }
+  .page-header h1 { font-size: 1.35rem; }
+  .metrics-row { grid-template-columns: 1fr 1fr; }
+  .metric-value { font-size: 1.25rem; }
+  .upload-card { padding: 28px 14px; }
+}
+
+/* ═══════════════════════════════════════
+   TOUCH FEEDBACK (pengganti :hover di layar sentuh)
+═══════════════════════════════════════ */
+@media (hover: none) and (pointer: coarse) {
+  .upload-btn:active { background: var(--accent-dark); transform: scale(0.97); }
+  .topbar-toggle:active { background: var(--accent-soft); }
+  .sidebar-close:active { background: var(--danger-soft); color: var(--danger); }
+  details > summary:active { background: var(--accent-mid); }
+  .upload-card.dragging, .upload-card:active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+}
 </style>
 </head>
 <body>
